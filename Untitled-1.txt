@@ -1,3 +1,6 @@
+https://excelmacromastery.com/vba-arraylist/
+
+CLASS1
 Public KEY_P As String
 Public NUM_PRO As String
 Public DT_PAG As String
@@ -6,77 +9,88 @@ Public NUM_DOC_CNPJ As String
 Public VL_PAG As Currency
 Public COMP_PAG As String
 Public NOME_PRO As String
-Public NUM_PAR As Inter
+Public NUM_PAR As Integer
 Public FOR_PAG As String
 Public FOR_PAG_DT As String
 Public ISENCAO As String
 Public MOTIVO_ISENCAO As String
 Public HISTORICO As String
-'Public PARCELAS As ArrayList
-
-'Primeira linha
-Pagamento.KEY_P =  range("a" & linha_planilha)
-Pagamento.NUM_PRO =  range("b" & linha_planilha)
-Pagamento.DT_PAG =  range("c" & linha_planilha)
-Pagamento.TP_DOC =  range("d" & linha_planilha)
-Pagamento.NUM_DOC_CNPJ = range("e" & linha_planilha)
-Pagamento.VL_PAG =  range("f" & linha_planilha)
-Pagamento.COMP_PAG =  range("g" & linha_planilha)
-'Segunda linha
-Pagamento.NOME_PRO =  range("b" & linha_planilha + 1)
-Pagamento.NUM_PAR =  range("c" & linha_planilha + 1)
-Pagamento.FOR_PAG =  range("d" & linha_planilha + 1)
-Pagamento.FOR_PAG_DT =  range("e" & linha_planilha + 1)
-'Terceira linha
-Pagamento.ISENCAO =  range("b" & linha_planilha +2)
-Pagamento.MOTIVO_ISENCAO =  range("c" & linha_planilha+2) 
-Pagamento.HISTORICO = range("d" & linha_planilha+2)
+Public LISTA_PAR As Object
 
 
+CLASS2
+Public PAR_KEY As String
+Public PAR_ORD As String
+Public PAR_CC As String
+Public PAR_VL As String
 
-Dim linha_final As Interger
-Set linha_final = 16 'Mudar
-Dim linha_planilha as Interger
-Dim linha_parcela as Interger
-Dim parcelas As Interger
 
+Sub PAG_CEPAG_LOCACAO()
 
-for linha_planilha = 1 to linha_final 
+Dim LINHA_PLANILHA As Integer
+Dim LINHA_PARCELA As Integer
+Dim LINHA_FINAL As Integer
+Dim VERIF_KEY_P As String
+Dim PAGAMENTO As Classe1
+Dim PARCELA As Classe2
+Dim LISTA_PAG As Object
+Dim LISTA_PAR As Object
+Dim LISTA_PAR_MAIN As Object
+Dim TESTE_PARCELAS As Variant
 
-    if(linha_planilha = 1 AND range("a" & linha_planilha) <> null ) THEN EXIT SUB
+Set LISTA_PAG = CreateObject("SYSTEM.COLLECTIONS.ARRAYLIST")
+Set LISTA_PAR_MAIN = CreateObject("SYSTEM.COLLECTIONS.ARRAYLIST")
 
-    if(linha_planilha = 1 OR Pagamento.KEY_P <> range("a" & linha_planilha)) THEN
-        'Primeira linha
-        Pagamento.KEY_P =  range("a" & linha_planilha)
-        Pagamento.NUM_PRO =  range("b" & linha_planilha)
-        Pagamento.DT_PAG =  range("c" & linha_planilha)
-        Pagamento.TP_DOC =  range("d" & linha_planilha)
-        Pagamento.NUM_DOC_CNPJ = range("e" & linha_planilha)
-        Pagamento.VL_PAG =  range("f" & linha_planilha)
-        Pagamento.COMP_PAG =  range("g" & linha_planilha)
-        'Segunda linha
-        Pagamento.NOME_PRO =  range("b" & linha_planilha + 1)
-        Pagamento.NUM_PAR =  range("c" & linha_planilha + 1)
-        Pagamento.FOR_PAG =  range("d" & linha_planilha + 1)
-        Pagamento.FOR_PAG_DT =  range("e" & linha_planilha + 1)
-        'Terceira linha
-        Pagamento.ISENCAO =  range("b" & linha_planilha +2)
-        Pagamento.MOTIVO_ISENCAO =  range("c" & linha_planilha+2) 
-        Pagamento.HISTORICO = range("d" & linha_planilha+2)
-    END IF 
+LINHA_FINAL = Cells(Rows.Count, 1).End(xlUp).Row '24 'Mudar
 
-    linha_parcela = linha_planilha + 3
+For LINHA_PLANILHA = 1 To LINHA_FINAL
 
-    do while Pagamento.KEY_P = range("a" & linha_parcela) do
+    If (LINHA_PLANILHA = 1 And Range("a" & LINHA_PLANILHA) <> Null) Then Exit Sub
+
+    If (LINHA_PLANILHA = 1 Or VERIF_KEY_P <> Range("a" & LINHA_PLANILHA)) Then
         
-        linha_parcela = linha_parcela + 1
-    loop
-
-    linha_planilha = linha_planilha + Pagamento.NUM_PAR + 2
+        Set PAGAMENTO = New Classe1
+        '1º LINHA
+        PAGAMENTO.KEY_P = Range("A" & LINHA_PLANILHA)
+        PAGAMENTO.NUM_PRO = Range("B" & LINHA_PLANILHA)
+        PAGAMENTO.DT_PAG = Range("C" & LINHA_PLANILHA)
+        PAGAMENTO.TP_DOC = Range("D" & LINHA_PLANILHA)
+        PAGAMENTO.NUM_DOC_CNPJ = Range("E" & LINHA_PLANILHA)
+        PAGAMENTO.VL_PAG = Range("F" & LINHA_PLANILHA)
+        PAGAMENTO.COMP_PAG = Range("G" & LINHA_PLANILHA)
+        '2º LINHA
+        PAGAMENTO.NOME_PRO = Range("B" & LINHA_PLANILHA + 1)
+        PAGAMENTO.NUM_PAR = Range("C" & LINHA_PLANILHA + 1)
+        PAGAMENTO.FOR_PAG = Range("D" & LINHA_PLANILHA + 1)
+        PAGAMENTO.FOR_PAG_DT = Range("E" & LINHA_PLANILHA + 1)
+        '3º LINHA
+        PAGAMENTO.ISENCAO = Range("B" & LINHA_PLANILHA + 2)
+        PAGAMENTO.MOTIVO_ISENCAO = Range("C" & LINHA_PLANILHA + 2)
+        PAGAMENTO.HISTORICO = Range("D" & LINHA_PLANILHA + 2)
+        'LINHAS DAS PARCELAS
+        Set PAGAMENTO.LISTA_PAR = CreateObject("SYSTEM.COLLECTIONS.ARRAYLIST")
+        
+        VERIF_KEY_P = PAGAMENTO.KEY_P
     
+    End If
 
+    LINHA_PARCELA = LINHA_PLANILHA + 3
 
-next
+    Do While PAGAMENTO.KEY_P = Range("A" & LINHA_PARCELA)
+        Set PARCELA = New Classe2
+        PARCELA.PAR_KEY = Range("A" & LINHA_PARCELA)
+        PARCELA.PAR_ORD = Range("B" & LINHA_PARCELA)
+        PARCELA.PAR_CC = Format(Range("C" & LINHA_PARCELA), "0000")
+        PARCELA.PAR_VL = Range("D" & LINHA_PARCELA)
+        PAGAMENTO.LISTA_PAR.Add PARCELA
+        LINHA_PARCELA = LINHA_PARCELA + 1
+    Loop
 
+    LISTA_PAG.Add PAGAMENTO
 
- 
+    LINHA_PLANILHA = LINHA_PLANILHA + PAGAMENTO.NUM_PAR + 2
+Next
+
+MsgBox LISTA_PAG(1).LISTA_PAR(2).PAR_VL
+
+End Sub
