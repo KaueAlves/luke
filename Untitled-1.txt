@@ -1,16 +1,3 @@
-O que devemos fazer:
-
-- Criar o modulo de classe
-- Colocar no modulo de classe as informações
-
-CLASSE PAGAMENTo
-
-
-
-
-
-Pagamento:
-
 Public KEY_P As String
 Public NUM_PRO As String
 Public DT_PAG As String
@@ -26,32 +13,70 @@ Public ISENCAO As String
 Public MOTIVO_ISENCAO As String
 Public HISTORICO As String
 'Public PARCELAS As ArrayList
+
+'Primeira linha
+Pagamento.KEY_P =  range("a" & linha_planilha)
+Pagamento.NUM_PRO =  range("b" & linha_planilha)
+Pagamento.DT_PAG =  range("c" & linha_planilha)
+Pagamento.TP_DOC =  range("d" & linha_planilha)
+Pagamento.NUM_DOC_CNPJ = range("e" & linha_planilha)
+Pagamento.VL_PAG =  range("f" & linha_planilha)
+Pagamento.COMP_PAG =  range("g" & linha_planilha)
+'Segunda linha
+Pagamento.NOME_PRO =  range("b" & linha_planilha + 1)
+Pagamento.NUM_PAR =  range("c" & linha_planilha + 1)
+Pagamento.FOR_PAG =  range("d" & linha_planilha + 1)
+Pagamento.FOR_PAG_DT =  range("e" & linha_planilha + 1)
+'Terceira linha
+Pagamento.ISENCAO =  range("b" & linha_planilha +2)
+Pagamento.MOTIVO_ISENCAO =  range("c" & linha_planilha+2) 
+Pagamento.HISTORICO = range("d" & linha_planilha+2)
+
+
+
+Dim linha_final As Interger
+Set linha_final = 16 'Mudar
+Dim linha_planilha as Interger
+Dim linha_parcela as Interger
+Dim parcelas As Interger
+
+
+for linha_planilha = 1 to linha_final 
+
+    if(linha_planilha = 1 AND range("a" & linha_planilha) <> null ) THEN EXIT SUB
+
+    if(linha_planilha = 1 OR Pagamento.KEY_P <> range("a" & linha_planilha)) THEN
+        'Primeira linha
+        Pagamento.KEY_P =  range("a" & linha_planilha)
+        Pagamento.NUM_PRO =  range("b" & linha_planilha)
+        Pagamento.DT_PAG =  range("c" & linha_planilha)
+        Pagamento.TP_DOC =  range("d" & linha_planilha)
+        Pagamento.NUM_DOC_CNPJ = range("e" & linha_planilha)
+        Pagamento.VL_PAG =  range("f" & linha_planilha)
+        Pagamento.COMP_PAG =  range("g" & linha_planilha)
+        'Segunda linha
+        Pagamento.NOME_PRO =  range("b" & linha_planilha + 1)
+        Pagamento.NUM_PAR =  range("c" & linha_planilha + 1)
+        Pagamento.FOR_PAG =  range("d" & linha_planilha + 1)
+        Pagamento.FOR_PAG_DT =  range("e" & linha_planilha + 1)
+        'Terceira linha
+        Pagamento.ISENCAO =  range("b" & linha_planilha +2)
+        Pagamento.MOTIVO_ISENCAO =  range("c" & linha_planilha+2) 
+        Pagamento.HISTORICO = range("d" & linha_planilha+2)
+    END IF 
+
+    linha_parcela = linha_planilha + 3
+
+    do while Pagamento.KEY_P = range("a" & linha_parcela) do
+        
+        linha_parcela = linha_parcela + 1
+    loop
+
+    linha_planilha = linha_planilha + Pagamento.NUM_PAR + 2
+    
+
+
+next
+
+
  
-
-
-Public ID As String
-Public Ordem As String
-Public XXX As Inter
-Public XXX As Inter
-
-
-
-
-//Public XXX As ArrayList
-
-
-- Definir uma variavel como EXEMPLO
-
-- Setar os valores EXEMPLO.ID = "BR120XXX0"
-- Setar os valores EXEMPLO.Ordem  = "BR120XXX0"
-- Setar os valores EXEMPLO.ID = "BR120XXX0"
-- Setar os valores EXEMPLO.ID = "BR120XXX0"
-
-- Testar a impressão do EXEMPLO.ID
-
-- Criar um ArrayList de EXEMPLO ---- ListaExemplo
-- Testar o ListaExemplo.add()
-- Testar o print ListaExemplo[0].ID
-
-Ser feliz.
-
